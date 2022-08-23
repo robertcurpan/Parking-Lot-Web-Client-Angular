@@ -1,0 +1,16 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+    </button>
+</mat-toolbar>
+<mat-sidenav-container>
+    <mat-sidenav #sidenav mode="side">
+        <button mat-flat-button class="menu-button" (click)="onDisplayTickets()">Display tickets</button>
+        <button mat-flat-button class="menu-button" (click)="onDisplayParkingSpots()">Display parking spots</button>
+    </mat-sidenav>
+    <mat-sidenav-content>
+
+        <app-parking-status></app-parking-status>
+    
+    </mat-sidenav-content>
+</mat-sidenav-container>

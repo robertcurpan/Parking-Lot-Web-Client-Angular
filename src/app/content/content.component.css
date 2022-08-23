@@ -1,0 +1,22 @@
+
+mat-form-field {
+    width: 100%;
+    margin:5px;
+}
+
+.infoMessage {
+    font-size: 16px;
+    width: 100%;
+    color: red;
+    margin: 5px;
+}
+
+button {
+    float: right;
+}
+
+.visualErrorMessage {
+    color: crimson;
+    font-style: italic;
+    font-size: 12px;
+}

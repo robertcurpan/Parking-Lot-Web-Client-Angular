@@ -1,0 +1,42 @@
+.my-card {
+    max-width: 280px;
+    margin: 10px;
+    border: solid 2px #000000;
+}
+
+.motorcycle-avatar {
+    background-image: url('../../assets/motorcycle.jpg');
+    background-size: cover;
+}
+
+.car-avatar {
+    background-image: url('../../assets/car.png');
+    background-size: cover;
+}
+
+.truck-avatar {
+    background-image: url('../../assets/truck.jpg');
+    background-size: cover;
+}
+
+.small-avatar {
+    background-image: url('../../assets/small.png');
+    background-size: cover;
+}
+
+.medium-avatar {
+    background-image: url('../../assets/medium.png');
+    background-size: cover;
+}
+
+.large-avatar {
+    background-image: url('../../assets/large.png');
+    background-size: cover;
+}
+
+li {
+    font-size: 18px;
+    margin: 5px;
+}
+
+

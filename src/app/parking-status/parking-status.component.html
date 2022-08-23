@@ -1,0 +1,66 @@
+<div [ngSwitch]="ticketsOrParkingSpots">
+    <div *ngSwitchCase="'tickets'">
+
+        <div fxLayout="row wrap">
+            <div fxFlex="23%" *ngFor="let ticket of parkingLotStatus.tickets">
+                <mat-card class="my-card">
+                    <mat-card-header>
+                        <div mat-card-avatar [ngClass]="getVehicleAvatar(ticket)"></div>
+                        <mat-card-title>Ticket</mat-card-title>
+                        <mat-card-subtitle>{{ ticket.vehicle.type }}</mat-card-subtitle>
+                    </mat-card-header>
+    
+                    <mat-card-content>
+                        <hr>
+                        <ul>
+                            <li>Parking spot id: {{ ticket.parkingSpot.id }}</li>
+                            <li>Vehicle: <br>
+                                <ul>
+                                    <li>Price: {{ ticket.vehicle.price }}</li>
+                                    <li>Electric: {{ ticket.vehicle.electric }}</li>
+                                    <li>Color: {{ ticket.vehicle.color }}</li>
+                                </ul>
+                            </li>
+                            <li>Driver: <br>
+                                <ul>
+                                    <li>Name: {{ ticket.vehicle.driver.name }}</li>
+                                    <li>VIP: {{ ticket.vehicle.driver.vipStatus }}</li>
+                                </ul>
+                            </li>
+                            <li>Date: {{ ticket.date }}</li>
+                        </ul>
+                    </mat-card-content>
+    
+                    <mat-card-actions align="end">
+                        <button mat-flat-button>Remove</button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </div>
+
+    </div>
+
+    <div *ngSwitchCase="'parkingSpots'">
+
+        <div fxLayout="row wrap">
+            <div fxFlex="23%" *ngFor="let parkingSpot of parkingLotStatus.parkingSpots">
+                <mat-card class="my-card">
+                    <mat-card-header>
+                        <div mat-card-avatar [ngClass]="getSpotAvatar(parkingSpot)"></div>
+                        <mat-card-title>Parking Spot: {{ parkingSpot.id }}</mat-card-title>
+                        <mat-card-subtitle>{{ parkingSpot.spotType }}</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <hr>
+                        <ul>
+                            <li>Electric: {{ parkingSpot.electric }}</li>
+                        </ul>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<br><br><br>

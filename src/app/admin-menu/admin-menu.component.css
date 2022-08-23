@@ -1,0 +1,25 @@
+.mat-icon {
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+}
+
+mat-sidenav-container {
+    height: 100%;
+}
+
+mat-sidenav, mat-sidenav-content {
+    padding: 16px;
+}
+
+mat-sidenav {
+    background-color: whitesmoke;
+    width: 250px;
+}
+
+.menu-button {
+    width: 100%;
+    margin: 15px 0px;
+    font-size: 18px;
+    background-color: whitesmoke;
+}

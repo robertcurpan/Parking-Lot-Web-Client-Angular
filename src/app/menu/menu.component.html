@@ -1,0 +1,16 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+    </button>
+</mat-toolbar>
+<mat-sidenav-container>
+    <mat-sidenav #sidenav mode="side">
+        <button mat-flat-button class="menu-button" (click)="onGenerateParkingTicket()">Generate parking ticket</button>
+        <button mat-flat-button class="menu-button" (click)="onLeaveParkingLot()">Leave parking lot</button>
+    </mat-sidenav>
+    <mat-sidenav-content>
+
+        <app-content *ngIf="displayContent" [firstMenuItemContent]="firstMenuItemContent"></app-content>
+
+    </mat-sidenav-content>
+</mat-sidenav-container>

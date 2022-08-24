@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Driver } from '../driver';
 import { Vehicle } from '../vehicle';
 import { RequestsService } from '../requests.service';
@@ -13,6 +13,8 @@ export class MenuComponent implements OnInit {
   firstMenuItemContent: boolean = true;
   displayContent: boolean = false;
 
+  @Output() public changeViewEvent = new EventEmitter();
+
   constructor(private requestsService: RequestsService) { }
 
   ngOnInit(): void {
@@ -26,6 +28,10 @@ export class MenuComponent implements OnInit {
   onLeaveParkingLot() {
     this.firstMenuItemContent = false;
     this.displayContent = true;
+  }
+
+  backToLoginScreen() {
+    this.changeViewEvent.emit('login');
   }
 
 }

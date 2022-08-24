@@ -17,6 +17,7 @@ export class ParkingStatusComponent implements OnInit {
 
   public ticketsOrParkingSpots: string = "";
   public parkingLotStatus: ParkingLotStatus = new ParkingLotStatus();
+  public errorMessageWhenRemovingTicket = "";
 
   constructor(private requestsService: RequestsService, private utilService: UtilService) { 
     this.receiveRequestCommandSubscription = this.utilService.getRequestCommand().subscribe((requestCommand: string) => {
@@ -46,11 +47,11 @@ export class ParkingStatusComponent implements OnInit {
   }
 
   getVehicleAvatar(ticket: Ticket) {
-    if (ticket.vehicle.type === "MOTORCYCLE") {
+    if (ticket.vehicle.vehicleType === "MOTORCYCLE") {
       return "motorcycle-avatar";
-    } else if (ticket.vehicle.type === "CAR") {
+    } else if (ticket.vehicle.vehicleType === "CAR") {
       return "car-avatar";
-    } else if (ticket.vehicle.type === "TRUCK") {
+    } else if (ticket.vehicle.vehicleType === "TRUCK") {
       return "truck-avatar";
     }
     return "motorcycle-avatar";
@@ -66,6 +67,39 @@ export class ParkingStatusComponent implements OnInit {
       return "large-avatar";
     }
     return "large-avatar";
+  }
+
+  removeTicket(parkingSpot: ParkingSpot) {
+    this.requestsService.leaveParkingLot(parkingSpot).subscribe({
+      next: (data) => {
+        this.updateParkingLotStatusWhenDriverLeaves(data);
+        this.errorMessageWhenRemovingTicket = "";
+      },
+      error: (errorMessage) => {
+        this.errorMessageWhenRemovingTicket = errorMessage;
+      }
+    });
+  }
+
+  updateParkingLotStatusWhenDriverLeaves(ticket: Ticket) {
+    // Vom updata parkingLotStatus (Scoatem ticket-ul din lista de tickets si scoatem vehicleId din parkingSPot + updatam versiunea)
+    this.parkingLotStatus.tickets = this.arrayRemoveTicket(this.parkingLotStatus.tickets, ticket);
+    this.updateParkingSpotInParkingLotStatus(ticket.parkingSpot);
+  }
+
+  updateParkingSpotInParkingLotStatus(parkingSpot: ParkingSpot) {
+    for(let index = 0; index < this.parkingLotStatus.parkingSpots.length; ++index) {
+        if(this.parkingLotStatus.parkingSpots[index].id == parkingSpot.id) {
+            this.parkingLotStatus.parkingSpots[index] = parkingSpot;
+            break;
+        }
+    }
+  }
+
+  arrayRemoveTicket(arr: Array<Ticket>, ticket: Ticket) {
+    return arr.filter(function(currentTicket) {
+        return currentTicket.parkingSpot.id != ticket.parkingSpot.id;
+    });
   }
   
 

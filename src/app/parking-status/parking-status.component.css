@@ -10,7 +10,7 @@
 }
 
 .car-avatar {
-    background-image: url('../../assets/car.png');
+    background-image: url('../../assets/car.jpg');
     background-size: cover;
 }
 
@@ -39,4 +39,8 @@ li {
     margin: 5px;
 }
 
+.footer {
+    position: fixed;
+    bottom: 10;
+}
 

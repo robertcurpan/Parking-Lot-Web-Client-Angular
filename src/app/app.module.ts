@@ -11,6 +11,8 @@ import { MenuComponent } from './menu/menu.component';
 import { ContentComponent } from './content/content.component';
 import { AdminMenuComponent } from './admin-menu/admin-menu.component';
 import { ParkingStatusComponent } from './parking-status/parking-status.component';
+import { LoginScreenComponent } from './login-screen/login-screen.component';
+import { EntrypointComponent } from './entrypoint/entrypoint.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { ParkingStatusComponent } from './parking-status/parking-status.componen
     MenuComponent,
     ContentComponent,
     AdminMenuComponent,
-    ParkingStatusComponent
+    ParkingStatusComponent,
+    LoginScreenComponent,
+    EntrypointComponent
   ],
   imports: [
     BrowserModule,

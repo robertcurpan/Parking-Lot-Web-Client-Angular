@@ -7,7 +7,7 @@
                     <mat-card-header>
                         <div mat-card-avatar [ngClass]="getVehicleAvatar(ticket)"></div>
                         <mat-card-title>Ticket</mat-card-title>
-                        <mat-card-subtitle>{{ ticket.vehicle.type }}</mat-card-subtitle>
+                        <mat-card-subtitle>{{ ticket.vehicle.vehicleType }}</mat-card-subtitle>
                     </mat-card-header>
     
                     <mat-card-content>
@@ -29,10 +29,11 @@
                             </li>
                             <li>Date: {{ ticket.date }}</li>
                         </ul>
+                        <div class="footer">{{ errorMessageWhenRemovingTicket }}</div>
                     </mat-card-content>
     
                     <mat-card-actions align="end">
-                        <button mat-flat-button>Remove</button>
+                        <button mat-flat-button (click)="removeTicket(ticket.parkingSpot)">Remove</button>
                     </mat-card-actions>
                 </mat-card>
             </div>

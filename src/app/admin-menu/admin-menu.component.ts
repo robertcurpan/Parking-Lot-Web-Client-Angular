@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UtilService } from '../util.service';
 
 @Component({
@@ -8,6 +8,8 @@ import { UtilService } from '../util.service';
 })
 export class AdminMenuComponent implements OnInit {
   
+  @Output() public changeViewEvent = new EventEmitter();
+
   constructor(private utilService: UtilService) { }
 
   ngOnInit(): void {
@@ -19,6 +21,10 @@ export class AdminMenuComponent implements OnInit {
 
   onDisplayParkingSpots() {
     this.utilService.sendRequestCommand("parkingSpots");
+  }
+
+  backToLoginScreen() {
+    this.changeViewEvent.emit('login');
   }
 
 }

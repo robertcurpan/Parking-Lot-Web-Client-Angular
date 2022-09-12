@@ -4,12 +4,12 @@
     <form #generateParkingTicketForm="ngForm" (ngSubmit)="doGenerateParkingTicket()" novalidate>
         <mat-form-field appearance="outline">
             <mat-label>Name</mat-label>
-            <input matInput #name="ngModel" name="name" required [(ngModel)]="vehicleModel.driver.name" (ngModelChange)="resetInfoAndErrorMessages()" [class.is-invalid]="name.invalid && name.touched" />
+            <input matInput #name="ngModel" name="name" required [(ngModel)]="vehicleModel.driver.name" [class.is-invalid]="name.invalid && name.touched" />
             <mat-hint *ngIf="name.touched && name.errors?.required" class="visualErrorMessage">Name is required!</mat-hint>
         </mat-form-field>
         <mat-form-field appearance="outline">
             <mat-label>Vehicle</mat-label>
-            <mat-select #typeOfVehicle="ngModel" name="vehicle" required [(ngModel)]="vehicleModel.vehicleType" (ngModelChange)="resetInfoAndErrorMessages()" [class.is-invalid]="typeOfVehicle.invalid && typeOfVehicle.touched">
+            <mat-select #typeOfVehicle="ngModel" name="vehicle" required [(ngModel)]="vehicleModel.vehicleType" [class.is-invalid]="typeOfVehicle.invalid && typeOfVehicle.touched">
                 <mat-option value="MOTORCYCLE">Motorcycle</mat-option>
                 <mat-option value="CAR">Car</mat-option>
                 <mat-option value="TRUCK">Truck</mat-option>
@@ -18,20 +18,18 @@
         </mat-form-field>
         <mat-form-field appearance="outline">
             <mat-label>Vehicle color</mat-label>
-            <input matInput #color="ngModel" name="color" required [(ngModel)]="vehicleModel.color" (ngModelChange)="resetInfoAndErrorMessages()" [class.is-invalid]="color.invalid && color.touched"/>
+            <input matInput #color="ngModel" name="color" required [(ngModel)]="vehicleModel.color" [class.is-invalid]="color.invalid && color.touched"/>
             <mat-hint *ngIf="color.touched && color.errors?.required" class="visualErrorMessage">Color is required!</mat-hint>
         </mat-form-field>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" [class.mat-form-field-invalid]="tooExpensiveError || price.value > 10000">
             <mat-label>Vehicle price</mat-label>
-            <input matInput #price="ngModel" name="price" required [(ngModel)]="vehicleModel.price" (ngModelChange)="resetInfoAndErrorMessages()" [class.is-invalid]="price.invalid && price.touched"  />
-            <mat-hint *ngIf="price.value > 10000" class="visualErrorMessage">The price must be lower than 10.000!</mat-hint>
+            <input matInput #price="ngModel" name="price" required [(ngModel)]="vehicleModel.price" [class.is-invalid]="price.invalid && price.touched" (ngModelChange)="clearTooExpensiveError()"/>
+            <mat-hint *ngIf="(price.value > 10000) || tooExpensiveError" class="visualErrorMessage">The price must be lower than 10.000!</mat-hint>
             <mat-hint *ngIf="price.touched && price.errors?.required" class="visualErrorMessage">Vehicle price is required!</mat-hint>
-            <mat-hint *ngIf="particularErrorMessages.tooExpensive" class="visualErrorMessage">The price must be lower than 10.000!</mat-hint>
-            <mat-hint *ngIf="particularErrorMessages.notANumber" class="visualErrorMessage">The price MUST be a NUMBER!</mat-hint>
         </mat-form-field>
         <mat-form-field appearance="outline">
             <mat-label>Electric vehicle</mat-label>
-            <mat-select #electric="ngModel" name="electric" required [(ngModel)]="vehicleModel.electric" (ngModelChange)="resetInfoAndErrorMessages()" [class.is-invalid]="electric.invalid && electric.touched">
+            <mat-select #electric="ngModel" name="electric" required [(ngModel)]="vehicleModel.electric" [class.is-invalid]="electric.invalid && electric.touched">
                 <mat-option value="true">Yes</mat-option>
                 <mat-option value="false">No</mat-option>
             </mat-select>
@@ -39,7 +37,7 @@
         </mat-form-field>
         <mat-form-field appearance="outline">
             <mat-label>VIP status</mat-label>
-            <mat-select #vipStatus="ngModel" name="vip" required [(ngModel)]="vehicleModel.driver.vipStatus" (ngModelChange)="resetInfoAndErrorMessages()" [class.is-invalid]="vipStatus.invalid && vipStatus.touched">
+            <mat-select #vipStatus="ngModel" name="vip" required [(ngModel)]="vehicleModel.driver.vipStatus" [class.is-invalid]="vipStatus.invalid && vipStatus.touched">
                 <mat-option value="true">Yes</mat-option>
                 <mat-option value="false">No</mat-option>
             </mat-select>
@@ -47,24 +45,18 @@
         </mat-form-field>
         <button mat-raised-button [disabled]="generateParkingTicketForm.form.invalid || price.value > 10000" color="primary" type="submit">Generate parking ticket</button>
     </form>
-    <div class="infoMessage">{{ generateParkingTicketInfoMessage }}</div>
-    <div *ngIf="particularErrorMessages.notAvailable" class="infoMessage">No available parking spots at the moment!</div>
-    <div *ngIf="particularErrorMessages.generalErrorMessage != ''" class="infoMessage">Error while processing the request!</div>
 </ng-template>
 
 <ng-template #displaySecondMenuItemContent>
     <form #leaveParkingLotForm="ngForm" (ngSubmit)="doLeaveParkingLot()" novalidate>
         <mat-form-field appearance="outline">
             <mat-label>Parking spot id</mat-label>
-            <input matInput #spotId="ngModel" name="spotId" required [(ngModel)]="parkingSpotId" (ngModelChange)="resetInfoAndErrorMessages()" [class.is-invalid]="spotId.invalid && spotId.touched"/>
+            <mat-select #spotId="ngModel" name="spotId" required [(ngModel)]="parkingSpotId" [class.is-invalid]="spotId.invalid && spotId.touched">
+                <mat-option *ngFor="let ticket of parkingLotStatus.tickets" [value]="ticket.parkingSpot.id">{{ ticket.parkingSpot.id }}</mat-option>
+            </mat-select>
             <mat-hint *ngIf="spotId.touched && spotId.errors?.required" class="visualErrorMessage">Parking spot id is required!</mat-hint>
-            <mat-hint *ngIf="particularErrorMessages.notOccupied && spotId.valid" class="visualErrorMessage">The parking spot with the given id is NOT OCCUPIED!</mat-hint>
-            <mat-hint *ngIf="particularErrorMessages.notFound && spotId.valid" class="visualErrorMessage">The parking spot with the given id does NOT EXIST!</mat-hint>
-            <mat-hint *ngIf="particularErrorMessages.notANumber && spotId.valid" class="visualErrorMessage">The parking spot id MUST be a NUMBER!</mat-hint>
         </mat-form-field>
         <button mat-raised-button [disabled]="leaveParkingLotForm.form.invalid" color="primary" type="submit">Leave parking lot</button>
     </form>
-    <div class="infoMessage">{{ leaveParkingLotInfoMessage }}</div>
-    <div *ngIf="particularErrorMessages.generalErrorMessage != ''" class="infoMessage">Error while processing the request!</div>
 </ng-template>
 

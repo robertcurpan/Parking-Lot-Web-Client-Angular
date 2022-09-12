@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class EntrypointComponent implements OnInit {
 
   public renderedView: string = "login";
+  public username: string = "";
   
   constructor() { }
 

@@ -1,4 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { RequestsService } from '../requests.service';
 import { UtilService } from '../util.service';
 
 @Component({
@@ -8,9 +9,10 @@ import { UtilService } from '../util.service';
 })
 export class AdminMenuComponent implements OnInit {
   
+  @Input() public username: string = "";
   @Output() public changeViewEvent = new EventEmitter();
 
-  constructor(private utilService: UtilService) { }
+  constructor(private utilService: UtilService, private requestsService: RequestsService) { }
 
   ngOnInit(): void {
   }
@@ -24,6 +26,7 @@ export class AdminMenuComponent implements OnInit {
   }
 
   backToLoginScreen() {
+    this.requestsService.clearJwt();
     this.changeViewEvent.emit('login');
   }
 

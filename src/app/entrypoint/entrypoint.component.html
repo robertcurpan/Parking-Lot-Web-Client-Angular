@@ -1,14 +1,14 @@
 <div *ngIf="renderedView === 'user'; then displayUser"></div>
 <ng-template #displayUser>
-    <app-menu (changeViewEvent)="renderedView=$event"></app-menu>
+    <app-menu (changeViewEvent)="renderedView=$event" [username]="username"></app-menu>
 </ng-template>
 
 <div *ngIf="renderedView === 'admin'; then displayAdmin"></div>
 <ng-template #displayAdmin>
-    <app-admin-menu (changeViewEvent)="renderedView=$event"></app-admin-menu>
+    <app-admin-menu (changeViewEvent)="renderedView=$event" [username]="username"></app-admin-menu>
 </ng-template>
 
 <div *ngIf="renderedView === 'login'; then displayLoginScreen"></div>
 <ng-template #displayLoginScreen>
-    <app-login-screen (changeViewEvent)="renderedView=$event"></app-login-screen>
+    <app-login-screen (changeViewEvent)="renderedView=$event" (sendUsernameEvent)="username=$event"></app-login-screen>
 </ng-template>

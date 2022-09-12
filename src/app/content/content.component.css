@@ -20,3 +20,7 @@ button {
     font-style: italic;
     font-size: 12px;
 }
+
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid .mat-form-field-outline {
+    color: red!important;
+}

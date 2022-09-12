@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">Parking Lot App</mat-toolbar>
 <div class="flex-container">
-    <form #loginScreen="ngForm" (ngSubmit)="login(username.value, password.value)" novalidate>
+    <form #loginScreen="ngForm" (ngSubmit)="login(username.value, password.value, username.value)" novalidate>
         <mat-form-field appearance="outline">
             <mat-label>Username</mat-label>
             <input matInput ngModel name="user" #username required />

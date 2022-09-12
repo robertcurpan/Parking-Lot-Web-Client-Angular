@@ -13,6 +13,7 @@ import { AdminMenuComponent } from './admin-menu/admin-menu.component';
 import { ParkingStatusComponent } from './parking-status/parking-status.component';
 import { LoginScreenComponent } from './login-screen/login-screen.component';
 import { EntrypointComponent } from './entrypoint/entrypoint.component';
+import { MessagePopupComponent } from './message-popup/message-popup.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { EntrypointComponent } from './entrypoint/entrypoint.component';
     AdminMenuComponent,
     ParkingStatusComponent,
     LoginScreenComponent,
-    EntrypointComponent
+    EntrypointComponent,
+    MessagePopupComponent
   ],
   imports: [
     BrowserModule,

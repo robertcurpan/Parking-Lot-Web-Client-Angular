@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+
 import { Driver } from '../driver';
+import { MessagePopupComponent } from '../message-popup/message-popup.component';
 import { ParkingLotStatus } from '../parking-lot-status';
 import { ParkingSpot } from '../parking-spot';
 import { RequestsService } from '../requests.service';
@@ -18,18 +21,11 @@ export class ContentComponent implements OnInit {
   parkingLotStatus = new ParkingLotStatus();
   vehicleModel = new Vehicle('', new Driver('', undefined), '', undefined, undefined);
   parkingSpotId = null;
-  generateParkingTicketInfoMessage = "";
-  leaveParkingLotInfoMessage = "";
-  particularErrorMessages = {
-    notFound: false,
-    notOccupied: false,
-    notAvailable: false,
-    tooExpensive: false,
-    notANumber: false,
-    generalErrorMessage: ""
-  };
+  successInformation = "";
+  errorInformation = "";
+  tooExpensiveError = false;
 
-  constructor(private requestsService: RequestsService) { }
+  constructor(private requestsService: RequestsService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.requestsService.getParkingSpots().subscribe (
@@ -47,11 +43,12 @@ export class ContentComponent implements OnInit {
         console.log("Success!", data);
         this.updateParkingLotStatusWhenDriverParks(data);
         console.log(this.parkingLotStatus);
-        this.generateParkingTicketInfoMessage = "Parking spot (id: " + data.parkingSpot.id + ") successfully allocated!";
-        this.leaveParkingLotInfoMessage = "";
+        this.successInformation = "Parking spot (id: " + data.parkingSpot.id + ") successfully allocated!";
+        this.dialog.open(MessagePopupComponent, {data: {successStatus: 'Success', infoMessage: this.successInformation}});
       },
       error: (errorMessage) => {
-        this.setErrorInParticularErrorMessages(errorMessage);
+        this.errorInformation = this.setErrorInformation(errorMessage);
+        //this.dialog.open(MessagePopupComponent, {data: {successStatus: 'Error', infoMessage: this.errorInformation}});
       }
     });
   }
@@ -70,11 +67,12 @@ export class ContentComponent implements OnInit {
         console.log("Success!", data);
         this.updateParkingLotStatusWhenDriverLeaves(data);
         console.log(this.parkingLotStatus);
-        this.leaveParkingLotInfoMessage = "Parking spot (id: " + parkingSpot.id + ") was successfully released!"
-        this.generateParkingTicketInfoMessage = "";
+        this.successInformation = "Parking spot (id: " + parkingSpot.id + ") was successfully released!"
+        this.dialog.open(MessagePopupComponent, {data: {successStatus: 'Success', infoMessage: this.successInformation}});
       },
       error: (errorMessage) => {
-        this.setErrorInParticularErrorMessages(errorMessage);
+        this.errorInformation = this.setErrorInformation(errorMessage);
+        this.dialog.open(MessagePopupComponent, {data: {successStatus: 'Error', infoMessage: this.errorInformation}});
       }
     });
 
@@ -108,37 +106,18 @@ export class ContentComponent implements OnInit {
     }
   }
 
-  setErrorInParticularErrorMessages(errorMessage: string) {
-    this.resetParticularErrorMessages();
+  clearTooExpensiveError() {
+    this.tooExpensiveError = false;
+  }
+
+  setErrorInformation(errorMessage: string) {
     switch(errorMessage) {
-      case "notFound": { this.particularErrorMessages.notFound = true; break; }
-      case "notAvailable": { this.particularErrorMessages.notAvailable = true; break; }
-      case "notOccupied": { this.particularErrorMessages.notOccupied = true; break; }
-      case "tooExpensive": { this.particularErrorMessages.tooExpensive = true; break; }
-      case "notANumber": { this.particularErrorMessages.notANumber = true; break; }
-      default: { this.particularErrorMessages.generalErrorMessage = errorMessage; break; }
+      case "notFound": { return "The specified parking spot does not exist!"; }
+      case "notAvailable": { return "There is no available parking spot at the moment!"; }
+      case "notOccupied": { return "The specified parking spot is not occupied!";  }
+      case "tooExpensive": { this.tooExpensiveError = true; return "The vehicle is too expensive! It should be cheaper than 10.000!"; }
+      default: { return "Error while processing the request!"; }
     }
-  }
-
-  resetParticularErrorMessages() {
-    this.particularErrorMessages = {
-      notFound: false,
-      notOccupied: false,
-      notAvailable: false,
-      tooExpensive: false,
-      notANumber: false,
-      generalErrorMessage: ""
-    };
-  }
-
-  resetInfoMessages() {
-    this.generateParkingTicketInfoMessage = "";
-    this.leaveParkingLotInfoMessage = "";
-  }
-
-  resetInfoAndErrorMessages() {
-    this.resetParticularErrorMessages();
-    this.resetInfoMessages();
   }
 
 }

@@ -9,6 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const material = [
   MatToolbarModule,
@@ -20,7 +21,8 @@ const material = [
   MatSelectModule,
   MatCardModule,
   MatListModule,
-  FlexLayoutModule
+  FlexLayoutModule,
+  MatDialogModule
 ];
 
 @NgModule({

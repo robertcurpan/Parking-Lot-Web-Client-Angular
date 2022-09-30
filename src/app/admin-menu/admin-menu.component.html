@@ -9,10 +9,12 @@
     <mat-sidenav #sidenav mode="side">
         <button mat-flat-button class="menu-button" (click)="onDisplayTickets()">Display tickets</button>
         <button mat-flat-button class="menu-button" (click)="onDisplayParkingSpots()">Display parking spots</button>
+        <button mat-flat-button class="menu-button" (click)="onRegisterVipUser()">Register VIP User</button>
     </mat-sidenav>
     <mat-sidenav-content>
 
-        <app-parking-status></app-parking-status>
-    
+        <app-parking-status *ngIf="sidenavContentView === 'parking-status'" [parkingStatusContentToDisplay]="parkingStatusContentToDisplay"></app-parking-status>
+        <app-register-user *ngIf="sidenavContentView === 'register-user'"></app-register-user>
+        
     </mat-sidenav-content>
 </mat-sidenav-container>

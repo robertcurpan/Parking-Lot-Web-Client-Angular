@@ -3,7 +3,10 @@
         <mat-icon>menu</mat-icon>
     </button>
     <h3>Hello, {{ username }}</h3>
-    <button mat-flat-button class="back-button" (click)="backToLoginScreen()">Logout</button>
+    <button mat-flat-button class="back-button" (click)="backToLoginScreen()">
+        <span *ngIf="loggedInAsVIP">Logout</span>
+        <span *ngIf="loggedInAsVIP == false">Back</span>
+    </button>
 </mat-toolbar>
 <mat-sidenav-container>
     <mat-sidenav #sidenav mode="side">
@@ -12,7 +15,7 @@
     </mat-sidenav>
     <mat-sidenav-content>
 
-        <app-content *ngIf="displayContent" [firstMenuItemContent]="firstMenuItemContent"></app-content>
+        <app-client-content *ngIf="displayContent" [clientContentToDisplay]="clientContentToDisplay" [loggedInAsVIP]="loggedInAsVIP"></app-client-content>
 
     </mat-sidenav-content>
 </mat-sidenav-container>

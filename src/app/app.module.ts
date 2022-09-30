@@ -7,24 +7,26 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { FormsModule } from '@angular/forms';
-import { MenuComponent } from './menu/menu.component';
-import { ContentComponent } from './content/content.component';
 import { AdminMenuComponent } from './admin-menu/admin-menu.component';
 import { ParkingStatusComponent } from './parking-status/parking-status.component';
 import { LoginScreenComponent } from './login-screen/login-screen.component';
 import { EntrypointComponent } from './entrypoint/entrypoint.component';
 import { MessagePopupComponent } from './message-popup/message-popup.component';
+import { RegisterUserComponent } from './register-user/register-user.component';
+import { ClientMenuComponent } from './client-menu/client-menu.component';
+import { ClientContentComponent } from './client-content/client-content.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent,
-    ContentComponent,
     AdminMenuComponent,
     ParkingStatusComponent,
     LoginScreenComponent,
     EntrypointComponent,
-    MessagePopupComponent
+    MessagePopupComponent,
+    RegisterUserComponent,
+    ClientMenuComponent,
+    ClientContentComponent,
   ],
   imports: [
     BrowserModule,

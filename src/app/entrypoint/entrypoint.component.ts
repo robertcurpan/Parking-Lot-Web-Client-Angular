@@ -5,14 +5,12 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './entrypoint.component.html',
   styleUrls: ['./entrypoint.component.css']
 })
-export class EntrypointComponent implements OnInit {
+export class EntrypointComponent {
 
   public renderedView: string = "login";
   public username: string = "";
-  
-  constructor() { }
+  public loggedInAsVIP: boolean = false;
 
-  ngOnInit(): void {
-  }
+  constructor() { }
 
 }

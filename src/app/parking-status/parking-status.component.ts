@@ -1,49 +1,47 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { ParkingLotStatus } from '../parking-lot-status';
-import { ParkingSpot } from '../parking-spot';
-import { RequestsService } from '../requests.service';
-import { Ticket } from '../ticket';
-import { UtilService } from '../util.service';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ParkingLotStatus } from '../structures/parking-lot-status';
+import { ParkingSpot } from '../structures/parking-spot';
+import { RequestsService } from '../services/requests.service';
+import { Ticket } from '../structures/ticket';
 
 @Component({
   selector: 'app-parking-status',
   templateUrl: './parking-status.component.html',
   styleUrls: ['./parking-status.component.css']
 })
-export class ParkingStatusComponent implements OnInit {
+export class ParkingStatusComponent implements OnChanges {
 
-  public receiveRequestCommandSubscription: Subscription;
-
-  public ticketsOrParkingSpots: string = "";
+  @Input() public parkingStatusContentToDisplay: string = "";
   public parkingLotStatus: ParkingLotStatus = new ParkingLotStatus();
   public errorMessageWhenRemovingTicket = "";
 
-  constructor(private requestsService: RequestsService, private utilService: UtilService) { 
-    this.receiveRequestCommandSubscription = this.utilService.getRequestCommand().subscribe((requestCommand: string) => {
-      if(requestCommand === "tickets") {
-        this.onDisplayTickets();
-      } else if (requestCommand === "parkingSpots") {
-        this.onDisplayParkingSpots();
-      }
-    })
-  }
+  constructor(private requestsService: RequestsService) {}
 
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    let inputValue = changes['parkingStatusContentToDisplay'].currentValue;
+    if(inputValue === "tickets") {
+      this.onDisplayTickets();
+    } else if (inputValue === "parkingSpots") {
+      this.onDisplayParkingSpots();
+    }
   }
 
   onDisplayTickets() {
     this.requestsService.getTickets().subscribe (
-      data => this.parkingLotStatus.setTickets(data)
+      data => {
+        this.parkingLotStatus.setTickets(data);
+      }
+      
     );
-    this.ticketsOrParkingSpots = "tickets";
   }
 
   onDisplayParkingSpots() {
     this.requestsService.getParkingSpots().subscribe (
-      data => this.parkingLotStatus.setParkingSpots(data)
+      data => {
+        this.parkingLotStatus.setParkingSpots(data);
+      }
     );
-    this.ticketsOrParkingSpots = "parkingSpots";
+    
   }
 
   getVehicleAvatar(ticket: Ticket) {
@@ -58,7 +56,6 @@ export class ParkingStatusComponent implements OnInit {
   }
 
   getSpotAvatar(parkingSpot: ParkingSpot) {
-    console.log(parkingSpot.spotType);
     if (parkingSpot.spotType === "SMALL") {
       return "small-avatar";
     } else if (parkingSpot.spotType === "MEDIUM") {

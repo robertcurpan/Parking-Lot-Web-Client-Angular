@@ -1,22 +1,23 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { Driver } from '../driver';
+import { Driver } from '../structures/driver';
 import { MessagePopupComponent } from '../message-popup/message-popup.component';
-import { ParkingLotStatus } from '../parking-lot-status';
-import { ParkingSpot } from '../parking-spot';
-import { RequestsService } from '../requests.service';
-import { Ticket } from '../ticket';
-import { Vehicle } from '../vehicle';
+import { ParkingLotStatus } from '../structures/parking-lot-status';
+import { ParkingSpot } from '../structures/parking-spot';
+import { RequestsService } from '../services/requests.service';
+import { Ticket } from '../structures/ticket';
+import { Vehicle } from '../structures/vehicle';
 
 @Component({
-  selector: 'app-content',
-  templateUrl: './content.component.html',
-  styleUrls: ['./content.component.css']
+  selector: 'app-client-content',
+  templateUrl: './client-content.component.html',
+  styleUrls: ['./client-content.component.css']
 })
-export class ContentComponent implements OnInit {
+export class ClientContentComponent implements OnInit {
 
-  @Input() firstMenuItemContent: boolean = false;
+  @Input() clientContentToDisplay: string = "";
+  @Input() loggedInAsVIP: boolean = false;
 
   parkingLotStatus = new ParkingLotStatus();
   vehicleModel = new Vehicle('', new Driver('', undefined), '', undefined, undefined);
@@ -38,6 +39,7 @@ export class ContentComponent implements OnInit {
   }
 
   doGenerateParkingTicket() {
+    this.setDriverVipStatus();
     this.requestsService.generateParkingTicket(this.vehicleModel).subscribe ({
       next: (data) => {
         console.log("Success!", data);
@@ -48,7 +50,7 @@ export class ContentComponent implements OnInit {
       },
       error: (errorMessage) => {
         this.errorInformation = this.setErrorInformation(errorMessage);
-        //this.dialog.open(MessagePopupComponent, {data: {successStatus: 'Error', infoMessage: this.errorInformation}});
+        this.dialog.open(MessagePopupComponent, {data: {successStatus: 'Error', infoMessage: this.errorInformation}});
       }
     });
   }
@@ -78,6 +80,9 @@ export class ContentComponent implements OnInit {
 
   }
 
+  setDriverVipStatus() {
+    this.vehicleModel.driver.vipStatus = this.loggedInAsVIP;
+  }
 
   arrayRemoveTicket(arr: Array<Ticket>, ticket: Ticket) {
     return arr.filter(function(currentTicket) {

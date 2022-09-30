@@ -1,28 +1,33 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { RequestsService } from '../requests.service';
-import { UtilService } from '../util.service';
+import { RequestsService } from '../services/requests.service';
 
 @Component({
   selector: 'app-admin-menu',
   templateUrl: './admin-menu.component.html',
   styleUrls: ['./admin-menu.component.css']
 })
-export class AdminMenuComponent implements OnInit {
+export class AdminMenuComponent {
   
   @Input() public username: string = "";
   @Output() public changeViewEvent = new EventEmitter();
+  public sidenavContentView = "";
+  public parkingStatusContentToDisplay = "";
 
-  constructor(private utilService: UtilService, private requestsService: RequestsService) { }
-
-  ngOnInit(): void {
-  }
+  constructor(private requestsService: RequestsService) { }
 
   onDisplayTickets() {
-    this.utilService.sendRequestCommand("tickets");
+    this.sidenavContentView = "parking-status";
+    this.parkingStatusContentToDisplay = "tickets";
   }
 
   onDisplayParkingSpots() {
-    this.utilService.sendRequestCommand("parkingSpots");
+    this.sidenavContentView = "parking-status";
+    this.parkingStatusContentToDisplay = "parkingSpots";
+  }
+
+  onRegisterVipUser() {
+    this.sidenavContentView = "register-user";
+
   }
 
   backToLoginScreen() {

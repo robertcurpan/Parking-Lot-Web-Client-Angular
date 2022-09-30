@@ -1,6 +1,6 @@
-<mat-toolbar color="primary">Parking Lot App</mat-toolbar>
 <div class="flex-container">
-    <form #loginScreen="ngForm" (ngSubmit)="login(username.value, password.value)" novalidate>
+    <form #registerUser="ngForm" (ngSubmit)="register(username.value, password.value)" novalidate>
+        <legend><h2><u>Register VIP User</u></h2></legend>
         <mat-form-field appearance="outline">
             <mat-label>Username</mat-label>
             <input matInput ngModel name="user" #username required />
@@ -10,8 +10,6 @@
             <input matInput ngModel name="pass" type="password" #password required />
         </mat-form-field><br>
     
-        <button mat-raised-button color="primary" type="submit">Login</button>
-        <button mat-raised-button type="button" class="nonVIPbutton" (click)="continueAsNonVIP()">Continue as Non-VIP</button>
+        <button mat-raised-button color="primary" type="submit">Register</button>
     </form>
 </div>
-

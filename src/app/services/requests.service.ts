@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Vehicle } from './vehicle';
-import { ParkingSpot } from './parking-spot';
-import { Ticket } from './ticket';
+import { Vehicle } from '../structures/vehicle';
+import { ParkingSpot } from '../structures/parking-spot';
+import { Ticket } from '../structures/ticket';
 import { catchError, Observable, pipe, throwError } from 'rxjs';
 
 @Injectable({
@@ -40,6 +40,13 @@ export class RequestsService {
     let loginURL = "http://localhost:8080/login";
     let userInfo = { username: username, password: password };
     return this.http.post<any>(loginURL, userInfo)
+                      .pipe(catchError(this.handleError));
+  }
+
+  registerVipUser(username: string, password: string): Observable<any> {
+    let registerURL = "http://localhost:8080/register";
+    let userInfo = { username: username, password: password };
+    return this.http.post<any>(registerURL, userInfo, { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.jwt }) })
                       .pipe(catchError(this.handleError));
   }
 

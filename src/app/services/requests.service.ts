@@ -11,40 +11,41 @@ import { catchError, Observable, pipe, throwError } from 'rxjs';
 export class RequestsService {
 
   private jwt = "";
+  private serverIP = "3.249.115.208";
 
   constructor(private http: HttpClient) { }
 
   generateParkingTicket(vehicle: Vehicle): Observable<Ticket> {
-    let generateParkingTicketURL = "http://localhost:8080/generateParkingTicket";
+    let generateParkingTicketURL = "http://" + this.serverIP + ":8080/generateParkingTicket";
     return this.http.post<Ticket>(generateParkingTicketURL, vehicle, { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.jwt }) })
                       .pipe(catchError(this.handleError));
   }
 
   leaveParkingLot(parkingSpot: ParkingSpot): Observable<Ticket> {
-    let leaveParkingLotURL = "http://localhost:8080/leaveParkingLot";
+    let leaveParkingLotURL = "http://" + this.serverIP + ":8080/leaveParkingLot";
     return this.http.post<Ticket>(leaveParkingLotURL, parkingSpot, { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.jwt }) })
                       .pipe(catchError(this.handleError));
   }
 
   getParkingSpots(): Observable<ParkingSpot[]> {
-    let getParkingSpotsURL = "http://localhost:8080/getParkingSpots";
+    let getParkingSpotsURL = "http://" + this.serverIP + ":8080/getParkingSpots";
     return this.http.get<ParkingSpot[]>(getParkingSpotsURL, { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.jwt }) });
   }
 
   getTickets(): Observable<Ticket[]> {
-    let getTicketsURL = "http://localhost:8080/getTickets";
+    let getTicketsURL = "http://" + this.serverIP + ":8080/getTickets";
     return this.http.get<Ticket[]>(getTicketsURL, { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.jwt }) });
   }
 
   login(username: string, password: string): Observable<any> {
-    let loginURL = "http://localhost:8080/login";
+    let loginURL = "http://" + this.serverIP + ":8080/login";
     let userInfo = { username: username, password: password };
     return this.http.post<any>(loginURL, userInfo)
                       .pipe(catchError(this.handleError));
   }
 
   registerVipUser(username: string, password: string): Observable<any> {
-    let registerURL = "http://localhost:8080/register";
+    let registerURL = "http://" + this.serverIP + ":8080/register";
     let userInfo = { username: username, password: password };
     return this.http.post<any>(registerURL, userInfo, { headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.jwt }) })
                       .pipe(catchError(this.handleError));

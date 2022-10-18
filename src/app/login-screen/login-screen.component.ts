@@ -15,7 +15,7 @@ export class LoginScreenComponent {
 
   @Output() public changeViewEvent = new EventEmitter();
   @Output() public sendUsernameEvent = new EventEmitter();
-  @Output() public sendLoggedInStatusEvent = new EventEmitter(); 
+  @Output() public sendLoggedInStatusEvent = new EventEmitter();
 
   constructor(private requestsService: RequestsService, private dialog: MatDialog) { }
 

@@ -20,8 +20,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm install -g --silent
-    - run: npm run build --if-present
+    - run: sudo npm install --silent
+    - run: sudo npm run build --if-present
     - name: Remove files from /var/www/html
       run: sudo rm -rf /var/www/html/*
     - name: Copy files from the build output to /var/www/html

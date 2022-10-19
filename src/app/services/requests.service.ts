@@ -11,7 +11,7 @@ import { catchError, Observable, pipe, throwError } from 'rxjs';
 export class RequestsService {
 
   private jwt = "";
-  private serverIP = "54.170.80.72";
+  private serverIP = "52.50.172.119";
 
   constructor(private http: HttpClient) { }
 

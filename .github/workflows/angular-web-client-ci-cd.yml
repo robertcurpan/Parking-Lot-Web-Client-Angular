@@ -15,6 +15,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm install
     - run: npm run build --if-present
     - name: Copy all dist files to /var/www/html
       run: sudo rm -r /var/www/html/* & sudo cp -r /home/ec2-user/actions-runner-angular/_work/Parking-Lot-Web-Client-Angular/Parking-Lot-Web-Client-Angular/dist/parking-lot-web-client/* /var/www/html/
